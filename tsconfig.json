@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["es6"],
+    "allowJs": false,
+    "importHelpers": true,
+    "outDir": "build",
+    "moduleResolution": "node",
+    "types": [
+      "jest",
+      "reflect-metadata"
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "sourceMap": true  
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "tsc-alias": {
+    "resolveFullPaths": true,
+  },
+  "include": [
+    "src",
+    "tests"
+  ],
+  "exclude": [
+    "./*.js"
+  ]
+}
