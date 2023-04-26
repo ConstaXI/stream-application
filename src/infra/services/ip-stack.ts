@@ -1,5 +1,5 @@
 import { inject, injectable } from 'inversify';
-import IpService from '../../business/protocols/services/get-address-from-ip-service';
+import IpService from '../../business/protocols/services/ip-service';
 import { Address } from '../../domain/entities/address';
 import { BadGateway } from '../../domain/errors/bad-gateway';
 import { Result, ok } from '../../domain/protocols/result';
@@ -34,6 +34,7 @@ export default class IpStack implements IpService {
     const address = response.value;
 
     return ok({
+      timestamp: Date.now(),
       country: address.country_name,
       region: address.region_name,
       city: address.city,

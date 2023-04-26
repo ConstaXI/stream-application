@@ -1,5 +1,10 @@
+import { AddressWithTimestamp } from './address';
+
 export type Client = {
   id: string;
-  timestamp: number;
   ip: string;
+};
+
+export type ClientWithAddress = Client & {
+  address: AddressWithTimestamp;
 };

@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import IpService from '../../../src/business/protocols/services/get-address-from-ip-service';
+import IpService from '../../../src/business/protocols/services/ip-service';
 import { Address } from '../../../src/domain/entities/address';
 import makeFakeAddress from '../entities/address';
 import { Result, ok } from '../../../src/domain/protocols/result';

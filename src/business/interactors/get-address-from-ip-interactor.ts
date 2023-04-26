@@ -2,9 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Address } from '../../domain/entities/address';
 import { GetAddressFromIp } from '../../domain/interactors/get-address-from-ip';
 import { Result } from '../../domain/protocols/result';
-import IpService, {
-  ipServiceSymbol,
-} from '../protocols/services/get-address-from-ip-service';
+import IpService, { ipServiceSymbol } from '../protocols/services/ip-service';
 import { BadGateway } from '../../domain/errors/bad-gateway';
 import { InvalidIp, invalidIp } from '../../domain/errors/ip-not-valid';
 import { AddressNotFound } from '../../domain/errors/address-not-found';

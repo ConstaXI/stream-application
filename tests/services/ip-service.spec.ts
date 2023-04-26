@@ -1,4 +1,4 @@
-import { ipServiceSymbol } from '../../src/business/protocols/services/get-address-from-ip-service';
+import { ipServiceSymbol } from '../../src/business/protocols/services/ip-service';
 import { Address } from '../../src/domain/entities/address';
 import { InvalidIp } from '../../src/domain/errors/ip-not-valid';
 import { Fail, Ok, ok, fail } from '../../src/domain/protocols/result';
@@ -23,6 +23,10 @@ describe('IpService', () => {
   const service = container.get<IpStack>(ipServiceSymbol);
 
   const ip = '192.168.0.1';
+
+  afterAll(() => {
+    container.unbindAll();
+  });
 
   it('should return an address', async () => {
     const fakeIpStackResponse = makeFakeSuccessIpStackResponse();

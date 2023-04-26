@@ -8,6 +8,6 @@ dotenv.config();
 
 const interactor = container.get(GetAddressFromIpInteractor);
 
-const address = await interactor.execute('172225.179.52');
+const address = await interactor.execute('172.225.179.52');
 
 console.log(address.value);

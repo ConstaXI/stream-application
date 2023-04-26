@@ -5,3 +5,7 @@ export type Address = {
   region: string;
   city: string;
 };
+
+export type AddressWithTimestamp = Address & {
+  timestamp: number;
+};

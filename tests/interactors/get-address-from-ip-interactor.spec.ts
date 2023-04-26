@@ -1,5 +1,5 @@
 import GetAddressFromIpInteractor from '../../src/business/interactors/get-address-from-ip-interactor';
-import { ipServiceSymbol } from '../../src/business/protocols/services/get-address-from-ip-service';
+import { ipServiceSymbol } from '../../src/business/protocols/services/ip-service';
 import { InvalidIp } from '../../src/domain/errors/ip-not-valid';
 import { Fail } from '../../src/domain/protocols/result';
 import container from '../../src/main/ioc/container';
@@ -12,6 +12,10 @@ describe('GetAddressFromIpInteractor', () => {
   container.bind(GetAddressFromIpInteractor).toSelf();
 
   const interactor = container.get(GetAddressFromIpInteractor);
+
+  afterAll(() => {
+    container.unbindAll();
+  });
 
   it('should call get address from ip service with correct values', async () => {
     const ip = '192.168.0.1';
