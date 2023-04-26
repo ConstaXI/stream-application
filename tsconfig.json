@@ -2,12 +2,13 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ES2022",
-    "lib": ["es6"],
+    "lib": ["es6", "dom"],
     "allowJs": false,
     "importHelpers": true,
     "outDir": "build",
     "moduleResolution": "node",
     "types": [
+      "node",
       "jest",
       "reflect-metadata"
     ],

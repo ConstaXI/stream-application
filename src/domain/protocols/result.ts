@@ -1,43 +1,36 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable max-classes-per-file */
-export class Fail<O, F> {
-  readonly value: F;
 
-  constructor(value: F) {
-    this.value = value;
-  }
+export type Result<O, F> = Ok<O> | Fail<F>;
 
-  isFail(): this is Fail<O, F> {
+export class Fail<F> {
+  constructor(readonly value: F) {}
+
+  isFail(): this is Fail<F> {
     return true;
   }
 
-  // eslint-disable-next-line no-use-before-define
-  isOk(): this is Ok<O, F> {
+  isOk(): this is Ok<never> {
     return false;
   }
 }
 
-export class Ok<O, F> {
-  readonly value: O;
+export class Ok<O> {
+  constructor(readonly value: O) {}
 
-  constructor(value: O) {
-    this.value = value;
-  }
-
-  isFail(): this is Fail<O, F> {
+  isFail(): this is Fail<never> {
     return false;
   }
 
-  isOk(): this is Ok<O, F> {
+  isOk(): this is Ok<O> {
     return true;
   }
 }
 
-export type Result<O, F> = Fail<O, F> | Ok<O, F>;
-
-export const fail = <F>(value: F): Fail<never, F> => {
+export const fail = <F>(value: F): Fail<F> => {
   return new Fail(value);
 };
 
-export const ok = <O>(value: O): Ok<O, never> => {
+export const ok = <O>(value: O): Ok<O> => {
   return new Ok(value);
 };
