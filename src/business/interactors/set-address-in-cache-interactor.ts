@@ -14,11 +14,9 @@ export default class SetAddressInCacheInteractor implements SetAddressInCache {
   ) {}
 
   async execute(client: ClientWithAddress): Promise<Result<undefined, Error>> {
-    const clientCopy = { ...client };
+    const addressWithTimestamp = { ...client.address, timestamp: Date.now() };
 
-    clientCopy.address.timestamp = Date.now();
-
-    await this.cacheRepository.set(client.id, clientCopy);
+    await this.cacheRepository.set(client.id, addressWithTimestamp);
 
     return ok(undefined);
   }

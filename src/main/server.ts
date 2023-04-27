@@ -1,13 +1,20 @@
 import 'reflect-metadata';
 import './ioc/load';
 import * as dotenv from 'dotenv';
-import GetAddressFromIpInteractor from '../business/interactors/get-address-from-ip-interactor';
+import client from '../infra/redis';
 import container from './ioc/container';
+import GetAddressFromIpPresenter from '../presentation/presenters/get-address-from-ip-presenter';
 
 dotenv.config();
 
-const interactor = container.get(GetAddressFromIpInteractor);
+await client.connect();
 
-const address = await interactor.execute('172.225.179.52');
+const presenter = container.get(GetAddressFromIpPresenter);
 
-console.log(address.value);
+const result = await presenter.handle({
+  id: 'any_id',
+  ip: '191.185.208.65',
+  timestamp: Date.now(),
+});
+
+console.log(result.value);

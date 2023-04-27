@@ -20,7 +20,10 @@ export default class GetAddressFromCacheInteractor implements CacheAddress {
       clientId,
     );
 
-    const isValid = found ? found.timestamp + 30 * 60_000 > Date.now() : false;
+    const isValid =
+      found && found.timestamp
+        ? found.timestamp + 30 * 60_000 > Date.now()
+        : false;
 
     if (!found || !isValid) {
       return ok(undefined);

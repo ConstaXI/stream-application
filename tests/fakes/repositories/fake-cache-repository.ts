@@ -16,3 +16,8 @@ export const fakeCacheRepositoryGet = jest.spyOn(
   FakeCacheRepository.prototype,
   'get',
 );
+
+export const fakeCacheRepositorySet = jest.spyOn(
+  FakeCacheRepository.prototype,
+  'set',
+);

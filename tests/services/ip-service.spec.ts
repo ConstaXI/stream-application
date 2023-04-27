@@ -1,5 +1,6 @@
 import { ipServiceSymbol } from '../../src/business/protocols/services/ip-service';
 import { Address } from '../../src/domain/entities/address';
+import { BadGateway, badGateway } from '../../src/domain/errors/bad-gateway';
 import { InvalidIp } from '../../src/domain/errors/ip-not-valid';
 import { Fail, Ok, ok, fail } from '../../src/domain/protocols/result';
 import { httpClientSymbol } from '../../src/infra/protocols/http-client';
@@ -70,5 +71,14 @@ describe('IpService', () => {
 
     expect(failed.isFail()).toBe(true);
     expect(failed.value).toBeInstanceOf(InvalidIp);
+  });
+
+  it('should return error if http client returns error', async () => {
+    fakeHttpClientGet.mockResolvedValueOnce(badGateway());
+
+    const failed = (await service.getAddress(ip)) as Fail<BadGateway>;
+
+    expect(failed.isFail()).toBe(true);
+    expect(failed.value).toBeInstanceOf(BadGateway);
   });
 });

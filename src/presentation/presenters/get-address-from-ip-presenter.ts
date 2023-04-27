@@ -46,7 +46,8 @@ export default class GetAddressFromIpPresenter {
     }
 
     const client: ClientWithAddress = {
-      ...input,
+      id: input.id,
+      ip: input.ip,
       address: externAddress.value,
     };
 
