@@ -1,5 +1,5 @@
 import { createClient } from 'redis';
 
-const client = createClient();
+const redisClient = createClient();
 
-export default client;
+export default redisClient;

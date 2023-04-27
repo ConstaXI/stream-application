@@ -4,15 +4,18 @@ import GetAddressFromCacheInteractor from '../../business/interactors/get-addres
 import { ClientWithAddress } from '../../domain/entities/client';
 import { Result, ok } from '../../domain/protocols/result';
 import SetAddressInCacheInteractor from '../../business/interactors/set-address-in-cache-interactor';
+import Presenter from '../protocols/presenter';
 
 export type PresenterInput = {
   ip: string;
-  id: string;
+  clientId: string;
   timestamp: number;
 };
 
 @injectable()
-export default class GetAddressFromIpPresenter {
+export default class GetAddressFromIpPresenter
+  implements Presenter<ClientWithAddress, Error>
+{
   constructor(
     @inject(GetAddressFromIpInteractor)
     private readonly getAddressFromIpInteractor: GetAddressFromIpInteractor,
@@ -22,11 +25,12 @@ export default class GetAddressFromIpPresenter {
     private readonly setAddressInCacheInteractor: SetAddressInCacheInteractor,
   ) {}
 
-  async handle(
-    input: PresenterInput,
-  ): Promise<Result<ClientWithAddress, Error>> {
+  async handle({
+    clientId,
+    ip,
+  }: PresenterInput): Promise<Result<ClientWithAddress, Error>> {
     const addressFromCache = await this.getAddressFromCacheInteractor.execute(
-      input.id,
+      clientId,
     );
 
     if (addressFromCache.isFail()) {
@@ -34,20 +38,22 @@ export default class GetAddressFromIpPresenter {
     }
 
     if (addressFromCache.value) {
-      return ok({ ...input, address: addressFromCache.value });
+      return ok({
+        id: clientId,
+        ip,
+        address: addressFromCache.value,
+      });
     }
 
-    const externAddress = await this.getAddressFromIpInteractor.execute(
-      input.ip,
-    );
+    const externAddress = await this.getAddressFromIpInteractor.execute(ip);
 
     if (externAddress.isFail()) {
       return externAddress;
     }
 
     const client: ClientWithAddress = {
-      id: input.id,
-      ip: input.ip,
+      id: clientId,
+      ip,
       address: externAddress.value,
     };
 

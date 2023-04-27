@@ -1,10 +1,10 @@
 import { injectable } from 'inversify';
 import CacheRepository from '../../business/protocols/repositories/cache-repository';
-import client from '../redis';
+import redisClient from '../redis';
 
 @injectable()
 export default class RedisCacheRepository implements CacheRepository {
-  private readonly client = client;
+  private readonly client = redisClient;
 
   async get<T extends Record<string, unknown>>(
     key: string,
