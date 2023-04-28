@@ -30,6 +30,10 @@
     "resolveFullPaths": true,
   },
   "include": [
+    "./jest.integration.config.json",
+    "./jest.integration.setup.ts",
+    "./jest.unit.config.ts",
+    "./jest.unit.setup.ts",
     "src",
     "tests"
   ],

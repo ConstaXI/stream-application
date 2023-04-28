@@ -1,15 +1,18 @@
 import 'reflect-metadata';
-import './ioc/load';
 import * as dotenv from 'dotenv';
+import Application from './application';
+import kafkaClient from '../infra/kafka';
 import redisClient from '../infra/redis';
-import { kafkaConsumer } from '../infra/kafka';
-import configConsumer from './kafka/config-consumer';
 
 dotenv.config();
 
 try {
-  await redisClient.connect();
-  await configConsumer(kafkaConsumer);
+  const application = new Application(
+    kafkaClient.consumer({ groupId: 'stream-application-ips' }),
+    redisClient as any,
+  );
+
+  await application.start();
 } catch (error) {
   console.error(error);
 }

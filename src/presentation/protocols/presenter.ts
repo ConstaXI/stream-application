@@ -1,5 +1,3 @@
-import { Result } from '../../domain/protocols/result';
-
-export default interface Presenter<O, F> {
-  handle(...arguments_: unknown[]): Promise<Result<O, F>>;
+export default interface Presenter {
+  handle(...arguments_: unknown[]): Promise<void>;
 }

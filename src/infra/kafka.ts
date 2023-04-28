@@ -5,8 +5,4 @@ const kafkaClient = new Kafka({
   brokers: ['localhost:9092'],
 });
 
-export const kafkaConsumer = kafkaClient.consumer({
-  groupId: 'stream-application-ips',
-});
-
-export const kafkaProducer = kafkaClient.producer();
+export default kafkaClient;
