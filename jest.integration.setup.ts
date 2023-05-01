@@ -1,10 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
+// import { GenericContainer, KafkaContainer } from 'testcontainers';
 import * as dotenv from 'dotenv';
 import 'reflect-metadata';
-import { jest } from '@jest/globals';
-// import { GenericContainer, KafkaContainer } from 'testcontainers';
 
-jest.setTimeout(30_000);
 dotenv.config();
 
 // const kafkaContainer = new KafkaContainer();

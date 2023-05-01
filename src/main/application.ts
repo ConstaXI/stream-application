@@ -5,6 +5,21 @@ import adaptConsumer from './adapters/adapt-consumer';
 import container from './ioc/container';
 import GetAddressFromIpPresenter from '../presentation/presenters/get-address-from-ip-presenter';
 
+/**
+ * @deprecated
+ * @class Application
+ * @description
+ * Deprecated because it was used for facilitating integration testing.
+ * This class is responsible for starting and stopping the application.
+ * as well it's connections with external services.
+ * @param {Consumer} consumer - Kafka consumer
+ * @param {RedisClientType} redisClient - Redis client
+ * @method listen - Starts the application
+ * @method kill - Stops the application
+ * @method bind - Binds the application to the dependencies
+ * @method startConnections - Starts the connections with the external services
+ *
+ */
 export default class Application {
   constructor(
     private readonly consumer: Consumer,

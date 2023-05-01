@@ -13,6 +13,7 @@
     "test:integration": "node --experimental-vm-modules -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand --detectOpenHandles --config ./jest.integration.config.json"
   },
   "dependencies": {
+    "@redis/client": "^1.5.7",
     "dotenv": "^16.0.3",
     "got": "^12.6.0",
     "inversify": "^6.0.1",
