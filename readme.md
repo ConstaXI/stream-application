@@ -40,13 +40,12 @@ And then, the application will log the address as well send a message in topic `
 ## Testing
 
 For Unit Testing, you just need to run ```npm run test:unit``` or ```npm run test:unit:coverage``` for coverage.
-
-For Integration Testing, ~~God forgives me~~ but you need to run ```npm run up``` first, because Integration Tests uses the local environment, instead of creating a test enviroment (explanation on Final Thoughts), and then run ```npm run test:integration```
+Unfortunately, Integration Tests are not working, as I didn't have the time to properly implement it, see more information in Final thoughts.
 
 ## Final thoughts
 
-- I could not develop integration testing properly (you may have noticed, buts that's why I just have 1 test in integration testing). That's because i had too much trouble trying to separate the test environment for Kafka (I tried creating a test docker-compose file and using testcointainers too). Redis was easy to setup up, unfortunately, Kafka threw so many errors that I just gave up because of the deadline. :(
+- I could not develop integration testing (you may have noticed, buts that's why I just have 1 dummy test in integration testing). That's because I had too much trouble trying to separate the test environment for Kafka. I tried to create a test-docker-compose.yaml, for setup different containers for Kafka, but it didn't work. I also tried to use testcontainers library, but again, Kafka threw so many errors that I just gave up. :(
 
-- The application uses updated ES Modules, meaning that you can use top-level awaits and other sintax-suggar features, like for-await. :)
+- The application uses recent ES Modules, meaning that you can use top-level awaits and other sintax-suggar features, like for-await. :)
 
-- At least, I think the application is very clean. if you need, for some reason, change the cache database, just create a new connection to them, create a class implementing "CacheRepository" and finally bind it in ```bind-infra.ts```. ;)
+- At least, I think the application is very clean. if you need, for some reason, change the cache database, just create a new connection to them, create a class implementing "CacheRepository" and finally bind it in ```bind-infra.ts```., The same works for IPStack and Got (dependency to do http requests). ;)
