@@ -12,18 +12,22 @@ export default class KafkaPublisher implements Publisher {
   async send(message: string): Promise<void> {
     const buffer = Buffer.from(message);
 
+    await this.producer.connect();
     await this.producer.send({
       topic: this.topic,
       messages: [{ value: buffer }],
     });
+    await this.producer.disconnect();
   }
 
   async fail(error: Error): Promise<void> {
     const buffer = Buffer.from(error.message);
 
+    await this.producer.connect();
     await this.producer.send({
       topic: this.topic,
       messages: [{ value: buffer }],
     });
+    await this.producer.disconnect();
   }
 }

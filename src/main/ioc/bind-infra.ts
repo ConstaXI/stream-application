@@ -6,8 +6,8 @@ import GotHttpClient from '../../infra/services/got-http-client';
 import { cacheRepositorySymbol } from '../../business/protocols/repositories/cache-repository';
 import RedisCacheRepository from '../../infra/repositories/redis-cache-repository';
 import { publisherSymbol } from '../../business/protocols/publisher/publisher';
-import KafkaPublisher from '../../infra/producer/kafka-producer';
 import kafkaClient from '../../infra/kafka';
+import KafkaPublisher from '../../infra/publisher/kafka-publisher';
 
 export default new ContainerModule((bind: interfaces.Bind) => {
   bind(ipServiceSymbol).toConstantValue(new IpStack(new GotHttpClient()));

@@ -15,16 +15,6 @@ services:
     ports:
       - 6379:6379
 
-  test-redis:
-    image: redis:latest
-    command: --port 6380
-    networks: 
-      - stream-application
-    ports:
-      - 6380:6380
-    expose:
-      - 6380
-
   kafka:
     image: confluentinc/cp-kafka:latest
     networks: 
