@@ -1,7 +1,8 @@
 import SetAddressInCacheInteractor from '../../src/business/interactors/set-address-in-cache-interactor';
 import { cacheRepositorySymbol } from '../../src/business/protocols/repositories/cache-repository';
 import container from '../../src/main/ioc/container';
-import { makeFakeClientWithAddress } from '../fakes/entities/client';
+import { makeFakeAddress } from '../fakes/entities/address';
+import { makeFakeClient } from '../fakes/entities/client';
 import FakeCacheRepository, {
   fakeCacheRepositorySet,
 } from '../fakes/repositories/fake-cache-repository';
@@ -16,14 +17,13 @@ describe('SetAddressInCacheInteractor', () => {
     container.unbindAll();
   });
 
-  it('should set timestamp before seting address into cache', async () => {
-    const client = makeFakeClientWithAddress();
+  it('should set timestamp before setting address into cache', async () => {
+    const client = makeFakeClient();
+    const address = makeFakeAddress();
 
-    await interactor.execute(client);
+    await interactor.execute(client, address);
 
-    const { id, address } = client;
-
-    expect(fakeCacheRepositorySet).toHaveBeenCalledWith(id, {
+    expect(fakeCacheRepositorySet).toHaveBeenCalledWith(client.id, {
       ...address,
       timestamp: expect.any(Number),
     });

@@ -13,8 +13,6 @@ export default function adaptConsumer(
 
     const input = JSON.parse(value.toString());
 
-    const result = await presenter.handle(input);
-
-    console.info(result);
+    await presenter.handle(input);
   };
 }

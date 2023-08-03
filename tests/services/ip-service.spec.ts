@@ -61,7 +61,7 @@ describe('IpService', () => {
     );
   });
 
-  it('should return error if id is wellformed, but address was not found', async () => {
+  it('should return error if id is well formed, but address was not found', async () => {
     const error = invalidIp();
     fakeHttpClientGet.mockRejectedValueOnce(error);
 

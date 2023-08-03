@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
 import IpService from '../../../src/business/protocols/services/ip-service';
 import { Address } from '../../../src/domain/entities/address';
-import makeFakeAddress from '../entities/address';
+import { makeFakeAddress } from '../entities/address';
 
 @injectable()
 export default class FakeIpService implements IpService {

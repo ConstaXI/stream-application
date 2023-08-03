@@ -1,5 +1,5 @@
 import { Client, ClientWithAddress } from '../../../src/domain/entities/client';
-import makeFakeAddress from './address';
+import { makeFakeAddressWithTimestamp } from './address';
 
 export const makeFakeClient = (): Client => ({
   id: 'any_id',
@@ -8,5 +8,5 @@ export const makeFakeClient = (): Client => ({
 
 export const makeFakeClientWithAddress = (): ClientWithAddress => ({
   ...makeFakeClient(),
-  address: makeFakeAddress(),
+  address: makeFakeAddressWithTimestamp(),
 });

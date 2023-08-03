@@ -1,7 +1,7 @@
 import GetAddressFromCacheInteractor from '../../src/business/interactors/get-address-from-cache-interactor';
 import { cacheRepositorySymbol } from '../../src/business/protocols/repositories/cache-repository';
 import container from '../../src/main/ioc/container';
-import makeFakeAddress from '../fakes/entities/address';
+import { makeFakeAddressWithTimestamp } from '../fakes/entities/address';
 import FakeCacheRepository, {
   fakeCacheRepositoryDelete,
   fakeCacheRepositoryGet,
@@ -35,7 +35,7 @@ describe('GetAddressFromCacheInteractor', () => {
 
   it('should return undefined if repository finds address, but timestamp is beyond 30 minutes', async () => {
     fakeCacheRepositoryGet.mockResolvedValueOnce(
-      makeFakeAddress({ timestamp: 0 }),
+      makeFakeAddressWithTimestamp({ timestamp: 0 }),
     );
 
     const imUndefined = await interactor.execute(id);
@@ -44,7 +44,7 @@ describe('GetAddressFromCacheInteractor', () => {
   });
 
   it('should return cached address', async () => {
-    const address = makeFakeAddress({ timestamp: Date.now() });
+    const address = makeFakeAddressWithTimestamp({ timestamp: Date.now() });
 
     fakeCacheRepositoryGet.mockResolvedValueOnce(address);
 
@@ -54,7 +54,7 @@ describe('GetAddressFromCacheInteractor', () => {
   });
 
   it('should delete expired addresses', async () => {
-    const expired = makeFakeAddress({ timestamp: 0 });
+    const expired = makeFakeAddressWithTimestamp({ timestamp: 0 });
 
     fakeCacheRepositoryGet.mockResolvedValueOnce(expired);
 

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import GetAddressFromIpInteractor from '../../business/interactors/get-address-from-ip-interactor';
 import GetAddressFromCacheInteractor from '../../business/interactors/get-address-from-cache-interactor';
-import { ClientWithAddress } from '../../domain/entities/client';
+import { Client, ClientWithAddress } from '../../domain/entities/client';
 import SetAddressInCacheInteractor from '../../business/interactors/set-address-in-cache-interactor';
 import Presenter from '../protocols/presenter';
 import Publisher, {
@@ -39,16 +39,23 @@ export default class GetAddressFromIpPresenter implements Presenter {
 
     const externAddress = await this.getAddressFromIpInteractor.execute(ip);
 
-    const client: ClientWithAddress = {
+    const client: Client = {
       id: clientId,
       ip,
-      address: externAddress,
     };
 
-    await this.setAddressInCacheInteractor.execute(client);
+    const addressWithTimestamp = await this.setAddressInCacheInteractor.execute(
+      client,
+      externAddress,
+    );
 
-    await this.publisher.send(JSON.stringify(client));
+    const clientWithAddress: ClientWithAddress = {
+      ...client,
+      address: addressWithTimestamp,
+    };
 
-    return client;
+    await this.publisher.send(JSON.stringify(clientWithAddress));
+
+    return clientWithAddress;
   }
 }

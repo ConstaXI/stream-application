@@ -1,4 +1,4 @@
-import { Address } from './address';
+import { AddressWithTimestamp } from './address';
 
 export type Client = {
   id: string;
@@ -6,5 +6,5 @@ export type Client = {
 };
 
 export type ClientWithAddress = Client & {
-  address: Address;
+  address: AddressWithTimestamp;
 };
