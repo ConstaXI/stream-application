@@ -1,6 +1,3 @@
-import { BadGateway } from '../../domain/errors/bad-gateway';
-import { Result } from '../../domain/protocols/result';
-
 export const httpClientSymbol = Symbol.for('HttpClient');
 
 export default interface HttpClient {
@@ -8,5 +5,5 @@ export default interface HttpClient {
     url: string,
     path?: string,
     headers?: Record<string, string>,
-  ): Promise<Result<T, BadGateway>>;
+  ): Promise<T>;
 }

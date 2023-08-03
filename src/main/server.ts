@@ -14,7 +14,7 @@ try {
   await redisClient.connect();
   const consumer = kafkaClient.consumer({ groupId: 'ip-listener' });
   await consumer.subscribe({
-    topic: process.env.INPUT_TOPIC as string,
+    topic: process.env.INPUT_TOPIC,
     fromBeginning: true,
   });
   await consumer.run({

@@ -2,7 +2,7 @@ import { EachMessageHandler } from 'kafkajs';
 import Presenter from '../../presentation/protocols/presenter';
 
 export default function adaptConsumer(
-  presenter: Presenter<unknown, Error>,
+  presenter: Presenter,
 ): EachMessageHandler {
   return async ({ message }) => {
     const { value } = message;
@@ -15,6 +15,6 @@ export default function adaptConsumer(
 
     const result = await presenter.handle(input);
 
-    console.info(result.value);
+    console.info(result);
   };
 }

@@ -3,6 +3,8 @@ import CacheRepository from '../../../src/business/protocols/repositories/cache-
 
 @injectable()
 export default class FakeCacheRepository implements CacheRepository {
+  async delete(key: string): Promise<void> {}
+
   async get<T>(_key: string): Promise<T | undefined> {
     return {} as T;
   }
@@ -20,4 +22,9 @@ export const fakeCacheRepositoryGet = jest.spyOn(
 export const fakeCacheRepositorySet = jest.spyOn(
   FakeCacheRepository.prototype,
   'set',
+);
+
+export const fakeCacheRepositoryDelete = jest.spyOn(
+  FakeCacheRepository.prototype,
+  'delete',
 );

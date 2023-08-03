@@ -1,5 +1,3 @@
-import { Fail, fail } from '../protocols/result';
-
 export class BadGateway extends Error {
   constructor() {
     super('Bad Gateway');
@@ -8,6 +6,6 @@ export class BadGateway extends Error {
   }
 }
 
-export function badGateway(): Fail<BadGateway> {
-  return fail(new BadGateway());
+export function badGateway(): BadGateway {
+  return new BadGateway();
 }

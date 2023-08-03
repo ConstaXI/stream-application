@@ -21,4 +21,8 @@ export default class RedisCacheRepository implements CacheRepository {
 
     await this.client.set(key, stringyfied);
   }
+
+  async delete(key: string): Promise<void> {
+    await this.client.del(key);
+  }
 }

@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { AddressWithTimestamp } from '../../domain/entities/address';
 import { CacheAddress } from '../../domain/interactors/get-address-from-cache';
-import { Result, ok } from '../../domain/protocols/result';
 import CacheRepository, {
   cacheRepositorySymbol,
 } from '../protocols/repositories/cache-repository';
@@ -13,22 +12,22 @@ export default class GetAddressFromCacheInteractor implements CacheAddress {
     private readonly cacheRepository: CacheRepository,
   ) {}
 
-  async execute(
-    clientId: string,
-  ): Promise<Result<AddressWithTimestamp | undefined, Error>> {
+  async execute(clientId: string): Promise<AddressWithTimestamp | undefined> {
     const found = await this.cacheRepository.get<AddressWithTimestamp>(
       clientId,
     );
 
-    const isValid =
-      found && found.timestamp
-        ? found.timestamp + 30 * 60_000 > Date.now()
-        : false;
-
-    if (!found || !isValid) {
-      return ok(undefined);
+    if (!found) {
+      return undefined;
     }
 
-    return ok(found);
+    const isValid = found.timestamp + 30 * 60_000 > Date.now();
+
+    if (!isValid) {
+      await this.cacheRepository.delete(clientId);
+      return undefined;
+    }
+
+    return found;
   }
 }

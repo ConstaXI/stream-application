@@ -1,11 +1,9 @@
 import { inject, injectable } from 'inversify';
 import IpService from '../../business/protocols/services/ip-service';
-import { Address } from '../../domain/entities/address';
-import { BadGateway } from '../../domain/errors/bad-gateway';
-import { Result, ok } from '../../domain/protocols/result';
+import { Address, AddressWithTimestamp } from '../../domain/entities/address';
 import HttpClient, { httpClientSymbol } from '../protocols/http-client';
 import { IpStackResponse, isIpStackError } from './ip-stack-response';
-import { InvalidIp, invalidIp } from '../../domain/errors/ip-not-valid';
+import { invalidIp } from '../../domain/errors/ip-not-valid';
 
 @injectable()
 export default class IpStack implements IpService {
@@ -14,32 +12,23 @@ export default class IpStack implements IpService {
     private readonly httpClient: HttpClient,
   ) {}
 
-  async getAddress(
-    ip: string,
-  ): Promise<Result<Address, BadGateway | InvalidIp>> {
+  async getAddress(ip: string): Promise<Address> {
     const response = await this.httpClient.get<IpStackResponse>(
-      process.env.IP_STACK_URL as string,
+      process.env.IP_STACK_URL,
       ip,
-      { access_key: process.env.ACCESS_KEY as string },
+      { access_key: process.env.ACCESS_KEY },
     );
 
-    if (response.isFail()) {
-      return response;
+    if (isIpStackError(response)) {
+      throw invalidIp();
     }
 
-    if (isIpStackError(response.value)) {
-      return invalidIp();
-    }
-
-    const address = response.value;
-
-    return ok({
-      timestamp: Date.now(),
-      country: address.country_name,
-      region: address.region_name,
-      city: address.city,
-      latitude: address.latitude,
-      longitude: address.longitude,
-    });
+    return {
+      country: response.country_name,
+      region: response.region_name,
+      city: response.city,
+      latitude: response.latitude,
+      longitude: response.longitude,
+    };
   }
 }

@@ -1,5 +1,3 @@
-import { Fail, fail } from '../protocols/result';
-
 export class InvalidIp extends Error {
   constructor() {
     super('Ip Not Valid');
@@ -8,6 +6,6 @@ export class InvalidIp extends Error {
   }
 }
 
-export function invalidIp(): Fail<InvalidIp> {
-  return fail(new InvalidIp());
+export function invalidIp(): InvalidIp {
+  return new InvalidIp();
 }

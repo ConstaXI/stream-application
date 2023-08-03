@@ -39,7 +39,7 @@ export default class Application {
     this.bind();
     await this.startConnections();
     await this.consumer.subscribe({
-      topic: process.env.INPUT_TOPIC as string,
+      topic: process.env.INPUT_TOPIC,
       fromBeginning: true,
     });
     await this.consumer.run({

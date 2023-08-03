@@ -1,8 +1,6 @@
 import { ipServiceSymbol } from '../../src/business/protocols/services/ip-service';
-import { Address } from '../../src/domain/entities/address';
 import { BadGateway, badGateway } from '../../src/domain/errors/bad-gateway';
-import { InvalidIp } from '../../src/domain/errors/ip-not-valid';
-import { Fail, Ok, ok, fail } from '../../src/domain/protocols/result';
+import { invalidIp } from '../../src/domain/errors/ip-not-valid';
 import { httpClientSymbol } from '../../src/infra/protocols/http-client';
 import IpStack from '../../src/infra/services/ip-stack';
 import container from '../../src/main/ioc/container';
@@ -32,9 +30,9 @@ describe('IpService', () => {
   it('should return an address', async () => {
     const fakeIpStackResponse = makeFakeSuccessIpStackResponse();
 
-    fakeHttpClientGet.mockResolvedValueOnce(ok(fakeIpStackResponse));
+    fakeHttpClientGet.mockResolvedValueOnce(fakeIpStackResponse);
 
-    const address = (await service.getAddress(ip)) as Ok<Address>;
+    const address = await service.getAddress(ip);
 
     const {
       city,
@@ -44,12 +42,11 @@ describe('IpService', () => {
       region_name: regionName,
     } = fakeIpStackResponse;
 
-    expect(address.isOk()).toBe(true);
-    expect(address.value.city).toBe(city);
-    expect(address.value.latitude).toBe(latitude);
-    expect(address.value.longitude).toBe(longitude);
-    expect(address.value.country).toBe(countryName);
-    expect(address.value.region).toBe(regionName);
+    expect(address.city).toBe(city);
+    expect(address.latitude).toBe(latitude);
+    expect(address.longitude).toBe(longitude);
+    expect(address.country).toBe(countryName);
+    expect(address.region).toBe(regionName);
   });
 
   it('should call http client with correct values', async () => {
@@ -65,20 +62,16 @@ describe('IpService', () => {
   });
 
   it('should return error if id is wellformed, but address was not found', async () => {
-    fakeHttpClientGet.mockResolvedValueOnce(ok(makeFakeErrorIpStackResponse()));
+    const error = invalidIp();
+    fakeHttpClientGet.mockRejectedValueOnce(error);
 
-    const failed = (await service.getAddress(ip)) as Fail<InvalidIp>;
-
-    expect(failed.isFail()).toBe(true);
-    expect(failed.value).toBeInstanceOf(InvalidIp);
+    await expect(service.getAddress(ip)).rejects.toThrow(error);
   });
 
   it('should return error if http client returns error', async () => {
-    fakeHttpClientGet.mockResolvedValueOnce(badGateway());
+    const fakeIpStackResponse = makeFakeErrorIpStackResponse();
+    fakeHttpClientGet.mockResolvedValue(fakeIpStackResponse);
 
-    const failed = (await service.getAddress(ip)) as Fail<BadGateway>;
-
-    expect(failed.isFail()).toBe(true);
-    expect(failed.value).toBeInstanceOf(BadGateway);
+    await expect(service.getAddress(ip)).rejects.toThrow();
   });
 });

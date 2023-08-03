@@ -1,7 +1,6 @@
 import GetAddressFromIpInteractor from '../../src/business/interactors/get-address-from-ip-interactor';
 import { ipServiceSymbol } from '../../src/business/protocols/services/ip-service';
-import { InvalidIp } from '../../src/domain/errors/ip-not-valid';
-import { Fail } from '../../src/domain/protocols/result';
+import { invalidIp } from '../../src/domain/errors/ip-not-valid';
 import container from '../../src/main/ioc/container';
 import FakeIpService, {
   fakeIpServiceGetAddress,
@@ -25,12 +24,11 @@ describe('GetAddressFromIpInteractor', () => {
     expect(fakeIpServiceGetAddress).toHaveBeenCalledWith(ip);
   });
 
-  it('should return error if ip is invalid', async () => {
+  it('should throw error if ip is invalid', async () => {
     const ip = 'im not valid, lol';
 
-    const error = (await interactor.execute(ip)) as Fail<InvalidIp>;
+    const invalidIpError = invalidIp();
 
-    expect(error.isFail()).toBe(true);
-    expect(error.value).toBeInstanceOf(InvalidIp);
+    await expect(interactor.execute(ip)).rejects.toThrow(invalidIpError);
   });
 });

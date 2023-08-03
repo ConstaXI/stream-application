@@ -1,5 +1,3 @@
-import { Fail, fail } from '../protocols/result';
-
 export class AddressNotFound extends Error {
   constructor() {
     super('Bad Ip');
@@ -9,6 +7,6 @@ export class AddressNotFound extends Error {
   }
 }
 
-export function addressNotFound(): Fail<AddressNotFound> {
-  return fail(new AddressNotFound());
+export function addressNotFound(): AddressNotFound {
+  return new AddressNotFound();
 }

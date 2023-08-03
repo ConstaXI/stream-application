@@ -7,5 +7,5 @@ export type Address = {
 };
 
 export type AddressWithTimestamp = Address & {
-  timestamp?: number;
+  timestamp: number;
 };

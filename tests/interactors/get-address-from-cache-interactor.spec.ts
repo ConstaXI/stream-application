@@ -1,10 +1,9 @@
 import GetAddressFromCacheInteractor from '../../src/business/interactors/get-address-from-cache-interactor';
 import { cacheRepositorySymbol } from '../../src/business/protocols/repositories/cache-repository';
-import { AddressWithTimestamp } from '../../src/domain/entities/address';
-import { Ok } from '../../src/domain/protocols/result';
 import container from '../../src/main/ioc/container';
 import makeFakeAddress from '../fakes/entities/address';
 import FakeCacheRepository, {
+  fakeCacheRepositoryDelete,
   fakeCacheRepositoryGet,
 } from '../fakes/repositories/fake-cache-repository';
 
@@ -29,12 +28,9 @@ describe('GetAddressFromCacheInteractor', () => {
   it('should return undefined if repository doesnt find address', async () => {
     fakeCacheRepositoryGet.mockResolvedValueOnce(undefined);
 
-    const imUndefined = (await interactor.execute(id)) as Ok<
-      AddressWithTimestamp | undefined
-    >;
+    const imUndefined = await interactor.execute(id);
 
-    expect(imUndefined.isOk()).toBe(true);
-    expect(imUndefined.value).toBe(undefined);
+    expect(imUndefined).toBe(undefined);
   });
 
   it('should return undefined if repository finds address, but timestamp is beyond 30 minutes', async () => {
@@ -42,26 +38,28 @@ describe('GetAddressFromCacheInteractor', () => {
       makeFakeAddress({ timestamp: 0 }),
     );
 
-    const imUndefined = (await interactor.execute(id)) as Ok<
-      AddressWithTimestamp | undefined
-    >;
+    const imUndefined = await interactor.execute(id);
 
-    expect(imUndefined.isOk()).toBe(true);
-    expect(imUndefined.value).toBe(undefined);
+    expect(imUndefined).toBe(undefined);
   });
 
   it('should return cached address', async () => {
     const address = makeFakeAddress({ timestamp: Date.now() });
 
-    fakeCacheRepositoryGet.mockResolvedValueOnce(
-      makeFakeAddress({ timestamp: Date.now() }),
-    );
+    fakeCacheRepositoryGet.mockResolvedValueOnce(address);
 
-    const addressFromCache = (await interactor.execute(id)) as Ok<
-      AddressWithTimestamp | undefined
-    >;
+    const addressFromCache = await interactor.execute(id);
 
-    expect(addressFromCache.isOk()).toBe(true);
-    expect(addressFromCache.value).toEqual(address);
+    expect(addressFromCache).toEqual(address);
+  });
+
+  it('should delete expired addresses', async () => {
+    const expired = makeFakeAddress({ timestamp: 0 });
+
+    fakeCacheRepositoryGet.mockResolvedValueOnce(expired);
+
+    await interactor.execute(id);
+
+    expect(fakeCacheRepositoryDelete).toHaveBeenCalledWith(id);
   });
 });
