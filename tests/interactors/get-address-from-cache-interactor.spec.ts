@@ -1,5 +1,5 @@
 import GetAddressFromCacheInteractor from '../../src/business/interactors/get-address-from-cache-interactor';
-import { cacheRepositorySymbol } from '../../src/business/protocols/repositories/cache-repository';
+import { cacheRepositorySymbol } from '../../src/business/protocols/repositories/delete-from-cache-repository';
 import container from '../../src/main/ioc/container';
 import { makeFakeAddressWithTimestamp } from '../fakes/entities/address';
 import FakeCacheRepository, {

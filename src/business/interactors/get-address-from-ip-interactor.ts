@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Address } from '../../domain/entities/address';
 import { GetAddressFromIp } from '../../domain/interactors/get-address-from-ip';
 import IpService, { ipServiceSymbol } from '../protocols/services/ip-service';
-import { invalidIp } from '../../domain/errors/ip-not-valid';
+import { invalidIp } from '../errors/ip-not-valid';
 
 @injectable()
 export default class GetAddressFromIpInteractor implements GetAddressFromIp {

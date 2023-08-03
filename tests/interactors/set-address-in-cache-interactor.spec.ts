@@ -1,5 +1,5 @@
 import SetAddressInCacheInteractor from '../../src/business/interactors/set-address-in-cache-interactor';
-import { cacheRepositorySymbol } from '../../src/business/protocols/repositories/cache-repository';
+import { cacheRepositorySymbol } from '../../src/business/protocols/repositories/delete-from-cache-repository';
 import container from '../../src/main/ioc/container';
 import { makeFakeAddress } from '../fakes/entities/address';
 import { makeFakeClient } from '../fakes/entities/client';

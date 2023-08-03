@@ -1,9 +1,9 @@
 import { RedisClientType } from 'redis';
 import { Consumer } from 'kafkajs';
 import load from './ioc/load';
-import adaptConsumer from './adapters/adapt-consumer';
+import { ConsumerAdapter } from '../presentation/adapters/adapt-consumer';
 import container from './ioc/container';
-import GetAddressFromIpPresenter from '../presentation/presenters/get-address-from-ip-presenter';
+import GetAddressFromIpController from '../presentation/controllers/get-address-from-ip-controller';
 
 /**
  * @deprecated
@@ -42,8 +42,9 @@ export default class Application {
       topic: process.env.INPUT_TOPIC,
       fromBeginning: true,
     });
+    const adapter = container.get(ConsumerAdapter);
     await this.consumer.run({
-      eachMessage: adaptConsumer(container.get(GetAddressFromIpPresenter)),
+      eachMessage: adapter.adapt(container.get(GetAddressFromIpController)),
     });
   }
 

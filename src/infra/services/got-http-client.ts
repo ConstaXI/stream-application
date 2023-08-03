@@ -1,7 +1,7 @@
 import got from 'got';
 import { injectable } from 'inversify';
 import HttpClient from '../protocols/http-client';
-import { badGateway } from '../../domain/errors/bad-gateway';
+import { badGateway } from '../errors/bad-gateway';
 
 @injectable()
 export default class GotHttpClient implements HttpClient {

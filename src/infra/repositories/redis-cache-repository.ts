@@ -1,9 +1,16 @@
 import { injectable } from 'inversify';
-import CacheRepository from '../../business/protocols/repositories/cache-repository';
 import redisClient from '../redis';
+import SetInCacheCacheRepository from '../../business/protocols/repositories/set-in-cache-repository';
+import GetFromCacheRepository from '../../business/protocols/repositories/get-from-cache-repository';
+import DeleteFromCacheRepository from '../../business/protocols/repositories/delete-from-cache-repository';
 
 @injectable()
-export default class RedisCacheRepository implements CacheRepository {
+export default class RedisCacheRepository
+  implements
+    SetInCacheCacheRepository,
+    GetFromCacheRepository,
+    DeleteFromCacheRepository
+{
   private readonly client = redisClient;
 
   async get<T extends Record<string, unknown>>(

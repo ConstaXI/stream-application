@@ -1,9 +1,16 @@
 import { injectable } from 'inversify';
-import CacheRepository from '../../../src/business/protocols/repositories/cache-repository';
+import SetInCacheCacheRepository from '../../../src/business/protocols/repositories/set-in-cache-repository';
+import DeleteFromCacheRepository from '../../../src/business/protocols/repositories/delete-from-cache-repository';
+import GetFromCacheRepository from '../../../src/business/protocols/repositories/get-from-cache-repository';
 
 @injectable()
-export default class FakeCacheRepository implements CacheRepository {
-  async delete(key: string): Promise<void> {}
+export default class FakeCacheRepository
+  implements
+    SetInCacheCacheRepository,
+    DeleteFromCacheRepository,
+    GetFromCacheRepository
+{
+  async delete(_key: string): Promise<void> {}
 
   async get<T>(_key: string): Promise<T | undefined> {
     return {} as T;

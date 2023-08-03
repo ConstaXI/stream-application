@@ -3,7 +3,7 @@ import { Partitioners } from 'kafkajs';
 import { ipServiceSymbol } from '../../business/protocols/services/ip-service';
 import IpStack from '../../infra/services/ip-stack';
 import GotHttpClient from '../../infra/services/got-http-client';
-import { cacheRepositorySymbol } from '../../business/protocols/repositories/cache-repository';
+import { cacheRepositorySymbol } from '../../business/protocols/repositories/delete-from-cache-repository';
 import RedisCacheRepository from '../../infra/repositories/redis-cache-repository';
 import { publisherSymbol } from '../../business/protocols/publisher/publisher';
 import kafkaClient from '../../infra/kafka';

@@ -1,6 +1,6 @@
 import { ContainerModule, interfaces } from 'inversify';
-import GetAddressFromIpPresenter from '../../presentation/presenters/get-address-from-ip-presenter';
+import GetAddressFromIpController from '../../presentation/controllers/get-address-from-ip-controller';
 
 export default new ContainerModule((bind: interfaces.Bind) => {
-  bind(GetAddressFromIpPresenter).toSelf();
+  bind(GetAddressFromIpController).toSelf();
 });

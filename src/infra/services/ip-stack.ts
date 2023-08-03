@@ -1,9 +1,9 @@
 import { inject, injectable } from 'inversify';
 import IpService from '../../business/protocols/services/ip-service';
-import { Address, AddressWithTimestamp } from '../../domain/entities/address';
+import { Address } from '../../domain/entities/address';
 import HttpClient, { httpClientSymbol } from '../protocols/http-client';
 import { IpStackResponse, isIpStackError } from './ip-stack-response';
-import { invalidIp } from '../../domain/errors/ip-not-valid';
+import { invalidIp } from '../../business/errors/ip-not-valid';
 
 @injectable()
 export default class IpStack implements IpService {
@@ -14,9 +14,9 @@ export default class IpStack implements IpService {
 
   async getAddress(ip: string): Promise<Address> {
     const response = await this.httpClient.get<IpStackResponse>(
-      process.env.IP_STACK_URL,
+      process.env.IP_STACK_URL as string,
       ip,
-      { access_key: process.env.ACCESS_KEY },
+      { access_key: process.env.ACCESS_KEY as string },
     );
 
     if (isIpStackError(response)) {

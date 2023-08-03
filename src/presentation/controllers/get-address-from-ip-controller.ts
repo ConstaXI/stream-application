@@ -3,37 +3,34 @@ import GetAddressFromIpInteractor from '../../business/interactors/get-address-f
 import GetAddressFromCacheInteractor from '../../business/interactors/get-address-from-cache-interactor';
 import { Client, ClientWithAddress } from '../../domain/entities/client';
 import SetAddressInCacheInteractor from '../../business/interactors/set-address-in-cache-interactor';
-import Presenter from '../protocols/presenter';
-import Publisher, {
-  publisherSymbol,
-} from '../../business/protocols/publisher/publisher';
+import Controller from '../protocols/controller';
+import { GetAddressFromIp } from '../../domain/interactors/get-address-from-ip';
+import { GetAddressFromCache } from '../../domain/interactors/get-address-from-cache';
+import { SetAddressInCache } from '../../domain/interactors/set-address-in-cache';
 
-export type PresenterInput = {
+export type ControllerInput = {
   ip: string;
   clientId: string;
   timestamp: number;
 };
 
 @injectable()
-export default class GetAddressFromIpPresenter implements Presenter {
+export default class GetAddressFromIpController implements Controller {
   constructor(
     @inject(GetAddressFromIpInteractor)
-    private readonly getAddressFromIpInteractor: GetAddressFromIpInteractor,
+    private readonly getAddressFromIpInteractor: GetAddressFromIp,
     @inject(GetAddressFromCacheInteractor)
-    private readonly getAddressFromCacheInteractor: GetAddressFromCacheInteractor,
+    private readonly getAddressFromCacheInteractor: GetAddressFromCache,
     @inject(SetAddressInCacheInteractor)
-    private readonly setAddressInCacheInteractor: SetAddressInCacheInteractor,
-    @inject(publisherSymbol)
-    private readonly publisher: Publisher,
+    private readonly setAddressInCacheInteractor: SetAddressInCache,
   ) {}
 
-  async handle({ clientId, ip }: PresenterInput): Promise<ClientWithAddress> {
+  async handle({ clientId, ip }: ControllerInput): Promise<ClientWithAddress> {
     const addressFromCache = await this.getAddressFromCacheInteractor.execute(
       clientId,
     );
 
     if (addressFromCache) {
-      await this.publisher.send(JSON.stringify(addressFromCache));
       return { id: clientId, ip, address: addressFromCache };
     }
 
@@ -53,8 +50,6 @@ export default class GetAddressFromIpPresenter implements Presenter {
       ...client,
       address: addressWithTimestamp,
     };
-
-    await this.publisher.send(JSON.stringify(clientWithAddress));
 
     return clientWithAddress;
   }

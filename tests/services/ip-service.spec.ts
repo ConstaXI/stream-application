@@ -1,6 +1,6 @@
 import { ipServiceSymbol } from '../../src/business/protocols/services/ip-service';
-import { BadGateway, badGateway } from '../../src/domain/errors/bad-gateway';
-import { invalidIp } from '../../src/domain/errors/ip-not-valid';
+import { BadGateway, badGateway } from '../../src/infra/errors/bad-gateway';
+import { invalidIp } from '../../src/business/errors/ip-not-valid';
 import { httpClientSymbol } from '../../src/infra/protocols/http-client';
 import IpStack from '../../src/infra/services/ip-stack';
 import container from '../../src/main/ioc/container';

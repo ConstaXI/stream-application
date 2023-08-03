@@ -1,15 +1,19 @@
 import { inject, injectable } from 'inversify';
 import { AddressWithTimestamp } from '../../domain/entities/address';
-import { CacheAddress } from '../../domain/interactors/get-address-from-cache';
-import CacheRepository, {
+import { GetAddressFromCache } from '../../domain/interactors/get-address-from-cache';
+import DeleteFromCacheRepository, {
   cacheRepositorySymbol,
-} from '../protocols/repositories/cache-repository';
+} from '../protocols/repositories/delete-from-cache-repository';
+import GetFromCacheRepository from '../protocols/repositories/get-from-cache-repository';
 
 @injectable()
-export default class GetAddressFromCacheInteractor implements CacheAddress {
+export default class GetAddressFromCacheInteractor
+  implements GetAddressFromCache
+{
   constructor(
     @inject(cacheRepositorySymbol)
-    private readonly cacheRepository: CacheRepository,
+    private readonly cacheRepository: GetFromCacheRepository &
+      DeleteFromCacheRepository,
   ) {}
 
   async execute(clientId: string): Promise<AddressWithTimestamp | undefined> {

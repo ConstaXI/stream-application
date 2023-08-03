@@ -1,6 +1,6 @@
 import GetAddressFromIpInteractor from '../../src/business/interactors/get-address-from-ip-interactor';
 import { ipServiceSymbol } from '../../src/business/protocols/services/ip-service';
-import { invalidIp } from '../../src/domain/errors/ip-not-valid';
+import { invalidIp } from '../../src/business/errors/ip-not-valid';
 import container from '../../src/main/ioc/container';
 import FakeIpService, {
   fakeIpServiceGetAddress,

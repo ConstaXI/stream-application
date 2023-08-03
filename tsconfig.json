@@ -7,11 +7,7 @@
     "importHelpers": true,
     "outDir": "build",
     "moduleResolution": "node",
-    "types": [
-      "node",
-      "jest",
-      "reflect-metadata"
-    ],
+    "types": ["node", "jest", "reflect-metadata"],
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -20,24 +16,15 @@
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
-    "sourceMap": true  
+    "sourceMap": true
   },
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
   "tsc-alias": {
-    "resolveFullPaths": true,
+    "resolveFullPaths": true
   },
-  "include": [
-    "./jest.integration.config.json",
-    "./jest.integration.setup.ts",
-    "./jest.unit.config.ts",
-    "./jest.unit.setup.ts",
-    "src",
-    "tests"
-  ],
-  "exclude": [
-    "./*.js"
-  ]
+  "include": ["src", "tests"],
+  "exclude": ["./*.js"]
 }
